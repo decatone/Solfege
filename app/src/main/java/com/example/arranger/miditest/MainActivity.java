@@ -16,8 +16,8 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidiStartListener,
         View.OnTouchListener, View.OnClickListener {
-    //**this class is for multiple TimeTask.
-    private class MyTask extends TimerTask{
+    //**this class is for multiple delayed-play TimeTask
+    private class TaskPlayNote extends TimerTask{
         public void run(){
             playNote();
         }
@@ -45,8 +45,9 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
     private TextView tv;
     private int pitch = 60; // 60 = middle C
     //**Delay Timer
-    private Timer timer;
-    MyTask myTask = new MyTask();
+    private Timer timer1;
+    private Timer timer2;
+    TaskPlayNote taskPlayNote = new TaskPlayNote();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
         //**TextView
         tv = (TextView) findViewById(R.id.textView);
         //**Timer
-        timer = new Timer();
+        timer1 = new Timer();
 
         //**Instantiate the driver.
         midiDriver = new MidiDriver();
@@ -189,9 +190,24 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
     //Delay play method.
     private void delayPlay(){
-        timer = new Timer();
-        myTask = new MyTask();
-        timer.schedule(myTask,500);
+        timer1 = new Timer();
+        taskPlayNote = new TaskPlayNote();
+        timer1.schedule(taskPlayNote,500);
+    }
+
+
+    //a method to determine if the answer is correct.
+    private void noteCorrect(int intrvl){
+        if(pitch == intrvl | pitch == 12 + intrvl | pitch == 24 + intrvl| pitch == 36 + intrvl | pitch == 48 + intrvl | pitch == 60 + intrvl | pitch == 72 + intrvl | pitch == 84 + intrvl | pitch == 96 + intrvl | pitch == 108 + intrvl){
+            tv.setText("Correct!");
+            tv.setTextColor(0xff00ff00);
+            pitch = noteGen();
+            delayPlay();
+        }
+        else{
+            tv.setText("Wrong!");
+            tv.setTextColor(0xFFFF0000);
+        }
     }
 
     @Override
@@ -199,201 +215,45 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
         // When btnNoteGen is clicked,
         if(v2.getId() == R.id.buttonNoteGen) {
             // Set pitch to a new one.
-            Log.i("btnNoteGen", "test");
+            //Log.i("btnNoteGen", "test");
             pitch = noteGen();
-            Log.d(String.valueOf(pitch), "is new pitch");
+            //Log.d(String.valueOf(pitch), "is new pitch");
         }
         if(v2.getId() == R.id.button1){
-            //interval, could save a bit coding time.
-            int itnvl = 0;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == 0 + itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(0);
         }
         if(v2.getId() == R.id.button2){
-            //interval, could save a bit coding time.
-            int itnvl = 1;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == 0 + itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(1);
         }
         if(v2.getId() == R.id.button3){
-            //interval, could save a bit coding time.
-            int itnvl = 2;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == 0 + itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(2);
         }
         if(v2.getId() == R.id.button4){
-            //interval, could save a bit coding time.
-            int itnvl = 3;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(3);
         }
         if(v2.getId() == R.id.button5){
-            //interval, could save a bit coding time.
-            int itnvl = 4;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(4);
         }
         if(v2.getId() == R.id.button6){
-            //interval, could save a bit coding time.
-            int itnvl = 5;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(5);
         }
         if(v2.getId() == R.id.button7){
-            //interval, could save a bit coding time.
-            int itnvl = 6;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(6);
         }
         if(v2.getId() == R.id.button8){
-            //interval, could save a bit coding time.
-            int itnvl = 7;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(7);
         }
         if(v2.getId() == R.id.button9){
-            //interval, could save a bit coding time.
-            int itnvl = 8;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(8);
         }
         if(v2.getId() == R.id.button10){
-            //interval, could save a bit coding time.
-            int itnvl = 9;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(9);
         }
         if(v2.getId() == R.id.button11){
-            //interval, could save a bit coding time.
-            int itnvl = 10;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(10);
         }
         if(v2.getId() == R.id.button12){
-            //interval, could save a bit coding time.
-            int itnvl = 11;
-            //Log.i("this is", "button 1");
-            //test if the note is C
-            if (pitch == itnvl | pitch == 12 + itnvl | pitch == 24 + itnvl | pitch == 48 + itnvl | pitch == 60 + itnvl | pitch == 72 + itnvl | pitch == 84 + itnvl | pitch == 96 + itnvl | pitch == 108 + itnvl){
-                tv.setText("Correct!");
-                tv.setTextColor(0xff00ff00);
-                pitch = noteGen();
-                delayPlay();
-            }
-            else{
-                tv.setText("Wrong!");
-                tv.setTextColor(0xFFFF0000);
-            }
+            noteCorrect(11);
         }
     }
 }

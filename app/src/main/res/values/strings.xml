@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">MidiTest</string>
-    <string name="play_a_note">Play a note</string>
+    <string name="app_name">Solfege</string>
     <string name="btn1">Do</string>
     <string name="btn2">Di</string>
     <string name="btn3">Re</string>
