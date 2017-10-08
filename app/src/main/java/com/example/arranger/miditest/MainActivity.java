@@ -1,5 +1,7 @@
 package com.example.arranger.miditest;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
             playNote();
         }
     }
+    //this is for the counter.
 
     private MidiDriver midiDriver;
     private byte[] event;
@@ -43,11 +46,15 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
     private Button button12;
     //**indicator
     private TextView tv;
+    private TextView totalToken;
+    private TextView correctToken;
     private int pitch = 60; // 60 = middle C
     //**Delay Timer
     private Timer timer1;
-    private Timer timer2;
     TaskPlayNote taskPlayNote = new TaskPlayNote();
+    //**Token
+    private int tt;
+    private int ct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
         //**TextView
         tv = (TextView) findViewById(R.id.textView);
+        totalToken = (TextView)findViewById(R.id.textView3);
+        correctToken = (TextView)findViewById(R.id.textView2);
         //**Timer
         timer1 = new Timer();
 
@@ -198,15 +207,33 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
     //a method to determine if the answer is correct.
     private void noteCorrect(int intrvl){
+        //**it will count the number of tried times.
+        SharedPreferences sp = getSharedPreferences("totaltoken", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        tt = sp.getInt("totaltoken",MODE_PRIVATE);
+        tt++;
+        editor.putInt("totaltoken",tt);
+        editor.commit();
+        totalToken.setText(String.valueOf(tt));
+
         if(pitch == intrvl | pitch == 12 + intrvl | pitch == 24 + intrvl| pitch == 36 + intrvl | pitch == 48 + intrvl | pitch == 60 + intrvl | pitch == 72 + intrvl | pitch == 84 + intrvl | pitch == 96 + intrvl | pitch == 108 + intrvl){
             tv.setText("Correct!");
-            tv.setTextColor(0xff00ff00);
+            tv.setTextColor(0xff33ff33);
             pitch = noteGen();
+            //set token
+            SharedPreferences sp2 = getSharedPreferences("correcttoken",Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor2 = sp2.edit();
+            ct = sp2.getInt("correcttoken",MODE_PRIVATE);
+            ct++;
+            correctToken.setText(String.valueOf(ct));
+            editor2.putInt("correcttoken", ct);
+            editor2.commit();
+            // auto-play next note.
             delayPlay();
         }
         else{
             tv.setText("Wrong!");
-            tv.setTextColor(0xFFFF0000);
+            tv.setTextColor(0xFFFF3333);
         }
     }
 
