@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MidiTest</string>
+    <string name="play_a_note">Play a note</string>
+    <string name="btn1">Do</string>
+    <string name="btn2">Di</string>
+    <string name="btn3">Re</string>
+    <string name="btn4">Me</string>
+    <string name="btn5">Mi</string>
+    <string name="btn6">Fa</string>
+    <string name="btn7">Fi</string>
+    <string name="btn8">So</string>
+    <string name="btn9">Le</string>
+    <string name="btn10">La</string>
+    <string name="btn11">Te</string>
+    <string name="btn12">Ti</string>
+</resources>
