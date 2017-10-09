@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.billthefarmer.mididriver.MidiDriver;
+import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
     private TextView tv;
     private TextView totalToken;
     private TextView correctToken;
+    private TextView accuracy;
     private int pitch = 60; // 60 = middle C
     //**Delay Timer
     private Timer timer1;
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
         tv = (TextView) findViewById(R.id.textView);
         totalToken = (TextView)findViewById(R.id.textView3);
         correctToken = (TextView)findViewById(R.id.textView2);
+        accuracy = (TextView)findViewById(R.id.textView6) ;
         //**Timer
         timer1 = new Timer();
 
@@ -205,25 +209,30 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
     }
 
 
-    //a method to determine if the answer is correct.
-    private void noteCorrect(int intrvl){
+    //a method to check if the answer is correct.
+    private void answerCheck(int intrvl){
         //**it will count the number of tried times.
         SharedPreferences sp = getSharedPreferences("totaltoken", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
+        //**set correctness counter.
+        SharedPreferences sp2 = getSharedPreferences("correcttoken",Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sp2.edit();
+        ct = sp2.getInt("correcttoken",MODE_PRIVATE);
+        //ct++ is not included.
         tt = sp.getInt("totaltoken",MODE_PRIVATE);
         tt++;
         editor.putInt("totaltoken",tt);
         editor.commit();
         totalToken.setText(String.valueOf(tt));
+        //change the fomat to 0.00%.
+        DecimalFormat format = new DecimalFormat("0.00%");
+        accuracy.setText("Accuracy: " + format.format((double)ct/tt));
 
         if(pitch == intrvl | pitch == 12 + intrvl | pitch == 24 + intrvl| pitch == 36 + intrvl | pitch == 48 + intrvl | pitch == 60 + intrvl | pitch == 72 + intrvl | pitch == 84 + intrvl | pitch == 96 + intrvl | pitch == 108 + intrvl){
             tv.setText("Correct!");
-            tv.setTextColor(0xff33ff33);
+            tv.setTextColor(0xFF54FF9F);
             pitch = noteGen();
             //set token
-            SharedPreferences sp2 = getSharedPreferences("correcttoken",Activity.MODE_PRIVATE);
-            SharedPreferences.Editor editor2 = sp2.edit();
-            ct = sp2.getInt("correcttoken",MODE_PRIVATE);
             ct++;
             correctToken.setText(String.valueOf(ct));
             editor2.putInt("correcttoken", ct);
@@ -233,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
         }
         else{
             tv.setText("Wrong!");
-            tv.setTextColor(0xFFFF3333);
+            tv.setTextColor(0xFF8B1A1A);
         }
     }
 
@@ -247,40 +256,40 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
             //Log.d(String.valueOf(pitch), "is new pitch");
         }
         if(v2.getId() == R.id.button1){
-            noteCorrect(0);
+            answerCheck(0);
         }
         if(v2.getId() == R.id.button2){
-            noteCorrect(1);
+            answerCheck(1);
         }
         if(v2.getId() == R.id.button3){
-            noteCorrect(2);
+            answerCheck(2);
         }
         if(v2.getId() == R.id.button4){
-            noteCorrect(3);
+            answerCheck(3);
         }
         if(v2.getId() == R.id.button5){
-            noteCorrect(4);
+            answerCheck(4);
         }
         if(v2.getId() == R.id.button6){
-            noteCorrect(5);
+            answerCheck(5);
         }
         if(v2.getId() == R.id.button7){
-            noteCorrect(6);
+            answerCheck(6);
         }
         if(v2.getId() == R.id.button8){
-            noteCorrect(7);
+            answerCheck(7);
         }
         if(v2.getId() == R.id.button9){
-            noteCorrect(8);
+            answerCheck(8);
         }
         if(v2.getId() == R.id.button10){
-            noteCorrect(9);
+            answerCheck(9);
         }
         if(v2.getId() == R.id.button11){
-            noteCorrect(10);
+            answerCheck(10);
         }
         if(v2.getId() == R.id.button12){
-            noteCorrect(11);
+            answerCheck(11);
         }
     }
 }
